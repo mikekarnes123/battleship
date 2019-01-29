@@ -45,4 +45,17 @@ class CellTest < Minitest::Test
     assert_equal 2, @cell.ship.health
   end
 
+  def test_that_render_method_works
+    assert_equal ".", @cell.render
+    @cell.fire_upon
+    assert_equal "M", @cell.render
+    @cell.place_ship(@cruiser)
+    assert_equal "S", @cell.render(true)
+    @cell.fire_upon
+    assert_equal "H", @cell.render
+    @cell.ship.hit
+    @cell.ship.hit
+    assert_equal "X", @cell.render
+  end
+
 end
