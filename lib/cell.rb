@@ -33,12 +33,11 @@ class Cell
         "M"
       elsif @fired_upon && @ship
         return "X" if @ship.health == 0
-
         "H"
       else
         "."
       end
+    end
   end
-end
 
 end
