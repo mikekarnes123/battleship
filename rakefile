@@ -1,0 +1,11 @@
+require 'rake'
+require 'rake/testtask'
+
+task default: "test"
+
+Rake::TestTask.new {|t|
+ t.test_files = FileList["tests/*_test.rb"]
+ t.verbose = true
+}
+
+task :default => [:test]
