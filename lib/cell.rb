@@ -24,11 +24,10 @@ class Cell
   end
 
   def render boolean = nil
-    case fired_upon?
-      when false
-        boolean && @ship ? "S" : "." 
-      else
-        !@ship ? 'M' : @ship.health == 0 ? 'X' : "H"
+    if !fired_upon?
+      boolean && @ship ? "S" : "." 
+    else
+      !@ship ? 'M' : @ship.health == 0 ? 'X' : "H"
     end
   end
 end
