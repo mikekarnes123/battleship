@@ -33,17 +33,21 @@ class BoardTest < Minitest::Test
     refute @board.valid_placement?(submarine, ["A1", "A2", "A4"])
     refute @board.valid_placement?(cruiser, ["A1", "A2", "A3"])
     assert @board.valid_placement?(submarine, ["A2", "B2", "C2"])
-    assert @board.valid_placement?(submarine, ["A1", "A2", "A3"])
-    assert @board.valid_placement?(submarine, ["B1", "B2", "B3"]
+    assert @board.valid_placement?(cruiser, ["D1", "D2"])
   end
 
   def test_it_can_place_ship_with_coords
     submarine = Ship.new("Submarine", 3)
-    @board.place(submarine, ["A1", "A2", "A3"])
-    coords = ["A1", "A2", "A3"]
-    coords.each do |coord|
-      assert_equal submarine, @board.cells[coord].ship
+    coordinates = ["A1", "A2", "A3"]
+    @board.place(submarine, coordinates)
+    coordinates.each do |coord|
+      assert_equal submarine, @board.cells[coordinate].ship
     end
+  end
+
+  def test_it_can_create_valid_rows
+    expected = [["A1", "A2", "A3", "A4"], ["B1", "B2", "B3", "B4"], ["C1", "C2", "C3", "C4"], ["D1", "D2", "D3", "D4"]]
+    assert_equal expected, @board.valid_rows
   end
 
   def test_ships_cannot_overlap
@@ -62,6 +66,9 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 3)
     @board.place submarine, ["A1", "A2", "A3"]
     assert_equal "   1 2 3 4 \n A S S S . \n B . . . . \n C . . . . \n D . . . . \n", @board.render(true)
+    cruiser = Ship.new("Cruiser", 2)
+    @board.place submarine, ["B2", "C2"]
+    assert_equal "   1 2 3 4 \n A S S S . \n B . S . . \n C . S . . \n D . . . . \n", @board.render(true)
   end
 
 end
