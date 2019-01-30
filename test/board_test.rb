@@ -40,7 +40,7 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 3)
     coordinates = ["A1", "A2", "A3"]
     @board.place(submarine, coordinates)
-    coordinates.each do |coord|
+    coordinates.each do |coordinate|
       assert_equal submarine, @board.cells[coordinate].ship
     end
   end

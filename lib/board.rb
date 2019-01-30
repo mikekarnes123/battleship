@@ -30,8 +30,7 @@ class Board
   end
 
   def valid_rows
-    letters = Array.new(4, ("A".."D").to_a)
-    numbers = Array.new(4, (1..4).to_a)
+    letters, numbers = Array.new(4, ("A".."D").to_a), Array.new(4, (1..4).to_a)
     numbers.map.with_index { |numbers_a, index|
       numbers_a.map { |number|
         "#{letters[index][index]}#{number}"
