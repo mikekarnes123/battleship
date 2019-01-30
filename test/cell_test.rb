@@ -8,6 +8,7 @@ class CellTest < Minitest::Test
   def setup
     @cruiser = Ship.new("Cruiser", 3)
     @cell = Cell.new("B4")
+    @cell_two = Cell.new("C2")
   end
 
   def test_it_exists
@@ -49,13 +50,13 @@ class CellTest < Minitest::Test
     assert_equal ".", @cell.render
     @cell.fire_upon
     assert_equal "M", @cell.render
-    @cell.place_ship(@cruiser)
-    assert_equal "S", @cell.render(true)
-    @cell.fire_upon
-    assert_equal "H", @cell.render
-    @cell.ship.hit
-    @cell.ship.hit
-    assert_equal "X", @cell.render
+    @cell_two.place_ship(@cruiser)
+    assert_equal "S", @cell_two.render(true)
+    @cell_two.fire_upon
+    assert_equal "H", @cell_two.render
+    @cell_two.ship.hit
+    @cell_two.ship.hit
+    assert_equal "X", @cell_two.render
   end
 
 end
