@@ -53,7 +53,7 @@ class Board
       }
       rendered_rows.unshift(("A".."D").to_a[index]) << "\n"
     }.join(" ")
-  "   1 2 3 4 \n #{rendered_board}"
+    "   1 2 3 4 \n #{rendered_board}"
   end
 
 end
