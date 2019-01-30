@@ -26,7 +26,7 @@ class Cell
   def render boolean = nil
     case fired_upon?
       when false
-        !@ship || !boolean ? "." : "S" 
+        !boolean || !boolean && !@ship ? "." : "S" 
       else
         !@ship ? 'M' : @ship.health == 0 ? 'X' : "H"
     end
