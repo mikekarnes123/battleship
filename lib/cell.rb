@@ -1,6 +1,6 @@
-require 'pry'
 class Cell
   attr_reader :coordinate, :ship
+
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
@@ -23,7 +23,7 @@ class Cell
     @ship.hit if @ship; @fired_upon = true
   end
 
-  def render boolean = nil
+  def render boolean = false
     if !fired_upon?
       boolean && @ship ? "S" : "." 
     else
