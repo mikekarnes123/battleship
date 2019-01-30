@@ -1,3 +1,4 @@
+require 'pry'
 class Board
 
   attr_reader :cells
@@ -9,6 +10,7 @@ class Board
       }
       cell_hash
     }
+    @occupied_cells = []
   end
 
   def valid_coordinate? coordinate
@@ -17,6 +19,11 @@ class Board
 
   def valid_placement? ship, coordinates
     return false if ship.length != coordinates.length
+    occupied = false
+    coordinates.each do |coord|
+      occupied = true if @occupied_cells.include?(coord)
+    end
+    return !occupied if occupied
     letters = Array.new(4, ("A".."D").to_a)
     numbers = Array.new(4, (1..4).to_a)
     valid_column = letters.map.with_index {|letters_a, index|
@@ -33,5 +40,33 @@ class Board
       return boolean if boolean
     }
   end
+
+  def place ship, coordinates
+    coordinates.each do |coordinate|
+      @cells[coordinate].ship = ship
+      @occupied_cells << coordinate
+    end
+  end
+
+  def render(boolean=false)
+    if !boolean
+      "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    else
+      rows = [["A1", "A2", "A3", "A4"],["B1", "B2", "B3", "B4"],["C1", "C2", "C3", "C4"],["D1", "D2", "D3", "D4"]]
+      rendered_board = rows.map.with_index {|row_array, index|
+      row_array.map {|coord|
+        if @occupied_cells.include? coord
+          @cells[coord].render(true)
+        else
+          @cells[coord].render
+        end
+      }.unshift(("A".."D").to_a[index]) << "\n"
+    }.join(" ")
+    "   1 2 3 4 \n #{rendered_board}"
+
+    end
+
+  end
+
 
 end

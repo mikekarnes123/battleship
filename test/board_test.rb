@@ -3,6 +3,7 @@ require 'minitest/pride'
 require './lib/board'
 require './lib/cell'
 require './lib/ship'
+require 'pry'
 
 class BoardTest < Minitest::Test
   def setup
@@ -16,7 +17,7 @@ class BoardTest < Minitest::Test
 
   def test_it_has_cells_hash_4_by_4
     cell_keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
-    cell_keys.each {|key| 
+    cell_keys.each {|key|
     assert_instance_of Cell, @board.cells[key]
     }
     assert_equal cell_keys ,@board.cells.keys
@@ -40,4 +41,34 @@ class BoardTest < Minitest::Test
 
 
   end
+
+  def test_it_can_place_ship_with_coords
+    submarine = Ship.new("Submarine", 3)
+    @board.place(submarine, ["A1", "A2", "A3"])
+    coords = ["A1", "A2", "A3"]
+    coords.each do |coord|
+      assert_equal submarine, @board.cells[coord].ship
+    end
+  end
+
+  def test_ships_cannot_overlap
+    submarine = Ship.new("Submarine", 3)
+    cruiser = Ship.new("Cruiser", 2)
+    @board.place(submarine, ["A1", "A2", "A3"])
+    refute @board.valid_placement?(cruiser, ["A1", "B1"])
+
+  end
+
+  def test_it_can_render_board
+    submarine = Ship.new("Submarine", 3)
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+  end
+
+  def test_renders_ships
+    submarine = Ship.new("Submarine", 3)
+    @board.place submarine, ["A1", "A2", "A3"]
+    assert_equal "   1 2 3 4 \n A S S S . \n B . . . . \n C . . . . \n D . . . . \n", @board.render(true)
+
+  end
+
 end
