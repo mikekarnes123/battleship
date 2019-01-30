@@ -61,7 +61,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_board
     submarine = Ship.new("Submarine", 3)
-    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+    assert_equal "   1 2 3 4 \n A . . . . \n B . . . . \n C . . . . \n D . . . . \n", @board.render
   end
 
   def test_renders_ships
