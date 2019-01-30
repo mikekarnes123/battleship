@@ -19,11 +19,7 @@ class Board
   def valid_placement? ship, coordinates
     return false if ship.length != coordinates.length
     overlapped = coordinates.any? {|coordinate| @occupied_cells.include?(coordinate)}
-    # coordinates.each do |coord|
-    #   occupied = true if @occupied_cells.include?(coord)
-    # end
     return !overlapped if overlapped
-    # return !occupied if occupied
     valid_columns = valid_rows.transpose
     [valid_rows, valid_columns].reduce(false) { |boolean, valids_array|
       target_valid = valids_array.find { |valid_array| valid_array.include?(coordinates.first) }
@@ -59,6 +55,5 @@ class Board
     }.join(" ")
   "   1 2 3 4 \n #{rendered_board}"
   end
-
 
 end
