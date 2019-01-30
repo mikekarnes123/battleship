@@ -70,5 +70,4 @@ class BoardTest < Minitest::Test
     @board.place submarine, ["B2", "C2"]
     assert_equal "   1 2 3 4 \n A S S S . \n B . S . . \n C . S . . \n D . . . . \n", @board.render(true)
   end
-
 end

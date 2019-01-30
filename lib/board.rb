@@ -45,7 +45,7 @@ class Board
     }
   end
 
-  def render(boolean=false)
+  def render boolean = false
     rendered_board = valid_rows.map.with_index { |row_array, index|
       rendered_rows = row_array.map { |coordinate|
         @occupied_cells.include?(coordinate) && boolean ? @cells[coordinate].render(true) : @cells[coordinate].render
