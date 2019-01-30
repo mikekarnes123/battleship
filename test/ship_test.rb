@@ -12,11 +12,9 @@ class ShipTest < Minitest::Test
   end
 
   def test_it_initially_has_name_length_and_health
-
     assert_equal "Cruiser", @cruiser.name
     assert_equal 3, @cruiser.health
     assert_equal 3, @cruiser.length
-
   end
 
   def test_it_reports_if_sunk
@@ -30,6 +28,5 @@ class ShipTest < Minitest::Test
     @cruiser.hit
     assert @cruiser.sunk?
   end
-
 
 end
