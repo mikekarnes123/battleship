@@ -34,7 +34,7 @@ class BoardTest < Minitest::Test
     refute @board.valid_placement?(cruiser, ["A1", "A2", "A3"])
     assert @board.valid_placement?(submarine, ["A2", "B2", "C2"])
     assert @board.valid_placement?(submarine, ["A1", "A2", "A3"])
-    assert @board.valid_placement?(submarine, ["B1", "B2", "B3"]
+    assert @board.valid_placement?(submarine, ["B1", "B2", "B3"])
   end
 
   def test_it_can_place_ship_with_coords
@@ -62,6 +62,9 @@ class BoardTest < Minitest::Test
     submarine = Ship.new("Submarine", 3)
     @board.place submarine, ["A1", "A2", "A3"]
     assert_equal "   1 2 3 4 \n A S S S . \n B . . . . \n C . . . . \n D . . . . \n", @board.render(true)
+    cruiser = Ship.new("Cruiser", 3)
+    @board.place cruiser, ["B1", "C1"]
+    assert_equal "   1 2 3 4 \n A S S S . \n B S . . . \n C S . . . \n D . . . . \n", @board.render(true)
   end
 
 end
