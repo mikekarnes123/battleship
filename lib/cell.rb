@@ -20,8 +20,7 @@ class Cell
   end
 
   def fire_upon
-    @ship.hit if @ship
-    @fired_upon = true
+    @ship.hit if @ship; @fired_upon = true
   end
 
   def render boolean = nil
