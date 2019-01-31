@@ -13,24 +13,19 @@ class Player
   end
 
   def get_coordinates
-    @ships.each {|ship|
-     coordinates = place_ship_message(ship)
-    place_ship(ship, coordinates)
+    @ships.each { |ship|
+      place_ship(ship)
+      render_board("Player", @board.render(true))
     }
-
   end
 
-  def place_ship ship, coordinates
-    valid_coordinates = coordinates.map {|coordinate|
-      @board.valid_coordinate?(coordinate)
-    }
-
-    valid_placement = @board.valid_placement?(ship, coordinates)
-    if valid_coordinates.all? && valid_placement
-      coordinates.each {|coordinate|
-        @board.cells[coordinate].place_ship(ship)
-      }
+  def place_ship ship
+    coordinates = place_ship_message(ship)
+    valid_coordinates = coordinates.map { |coordinate| @board.valid_coordinate?(coordinate) }
+    if !valid_coordinates.all? {|coordinate| coordinate}
+      error_message(2); place_ship(ship)
     end
-    true
+    valid_placement = @board.valid_placement?(ship, coordinates)
+    valid_placement ? @board.place(ship, coordinates) : (error_message(3); place_ship(ship))
   end
 end
