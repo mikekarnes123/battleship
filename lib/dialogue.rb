@@ -3,14 +3,14 @@ module Dialogue
     puts "Welcome to BATTLESHIP"
     puts "[p] to play. [q] to quit."
     player_response =  gets.chomp
-    boolean = true if player_response == "p" 
+    boolean = true if player_response == "p"
   end
 
   def end_game_message
     puts "Good Bye"
   end
 
-  def initialize_ship_message 
+  def initialize_ship_message
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships"
   end
@@ -32,19 +32,33 @@ module Dialogue
 
   def render_board user, board
     puts "#{"=" * 5}#{user}#{"=" * 5}"
+    puts "\n"
     puts board
   end
 
+  def ready_message
+    puts "#{"="*10}Prepare For Battle!!#{"="*10}"
+    puts "\n"
+  end
+
   def error_message code
-    case code 
+    case code
     when 2
-      puts "#{"-" * 10}Invalid Coordinates!!!#{"-" * 10}"
-      puts "#{"-" * 40}"
+      puts "#{"*" * 10}Invalid Coordinates!!!#{"*" * 10}"
+      puts "\n"
+
     when 3
-      puts "#{"-" * 10}Invalid Placement!!!#{"-" * 10}"
-      puts "#{"-" * 40}"
+      puts "#{"*" * 10}Invalid Placement!!!#{"*" * 10}"
+      puts "\n"
+    when 4
+      puts "#{"*" * 10}You've Already Fired At That Coordinate!#{"*" * 10}"
+      puts "\n"
     end
   end
 
+  def player_guess_input
+    puts "Which Coordinate Would You Like To Fire On?"
+    gets.chomp.capitalize
+  end
 
 end

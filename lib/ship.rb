@@ -5,11 +5,10 @@ class Ship
     @name = name
     @length = length
     @health = length
-    @sunk = false
   end
 
   def sunk?
-    @sunk = true if @health == 0 
+    @health < 1
   end
 
   def hit

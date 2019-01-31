@@ -2,18 +2,21 @@ require_relative 'board'
 require 'pry'
 class Computer
 
-  attr_reader :board
+  attr_reader :board,
+              :available_cells,
+              :ships
 
   def initialize
     @board = Board.new
     @ships = [Ship.new("Cruiser", 2), Ship.new("Submarine", 3)]
     @ships_coordinates = {"Cruiser" => [], "Submarine" => []}
+    @available_cells = @board.cells.keys
   end
 
-  def place_ships
+  def initialize_ship_placement
     @ships.each { |ship| generate_random_coordinates(ship) }
   end
-  
+
   def generate_random_coordinates ship
     row_or_column = [@board.valid_rows, @board.valid_rows.transpose][rand(0..1)][rand(0..3)]
     first_coordinate = row_or_column[rand(0..3)]
@@ -22,7 +25,27 @@ class Computer
     remaining_cells = ship.length - 1
     remaining_cells.times {|_| @ships_coordinates[ship.name] << row_or_column[first_index += 1] }
     valid_placement = @board.valid_placement?(ship, @ships_coordinates[ship.name])
-    valid_placement ? @board.place(ship, @ships_coordinates[ship.name]) : 
+    valid_placement ? @board.place(ship, @ships_coordinates[ship.name]) :
     (@ships_coordinates[ship.name] = []; generate_random_coordinates(ship))
+  end
+
+  def guess
+    random_coord = @available_cells.sample
+    @available_cells.delete(random_coord)
+  end
+
+  def recieve_shot(player_guess)
+    @board.cells[player_guess].fire_upon
+    case @board.cells[player_guess].render
+    when "M"
+      puts "You Missed A Shot On #{player_guess}!"
+      puts "\n"
+    when "H"
+      puts "You Landed A Hit On #{player_guess}!"
+      puts "\n"
+    else
+      puts "You Sunk The Computer's #{@board.cells[player_guess].ship.name}"
+      puts "\n"
+    end
   end
 end

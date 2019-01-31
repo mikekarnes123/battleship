@@ -23,8 +23,8 @@ class CellTest < Minitest::Test
   def test_it_reports_if_the_cell_is_empty
     assert @cell.empty?
   end
-
-  def test_it_reports_not_empty_if_ship_is_placed_on_cell
+#rename test
+  def test_it_reports_cell_has_a_ship_and_is_no_longer_empty
     assert @cell.empty?
     @cell.place_ship(@cruiser)
     assert_equal @cruiser, @cell.ship
@@ -58,5 +58,4 @@ class CellTest < Minitest::Test
     @cell_two.ship.hit
     assert_equal "X", @cell_two.render
   end
-
 end

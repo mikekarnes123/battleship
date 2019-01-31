@@ -17,6 +17,23 @@ class ComputerTest < MiniTest::Test
   end
 
   def test_it_chooses_random_coordinates
-    @computer.place_ship
+    @computer.initialize_ship_placement
+  end
+
+  def test_computer_can_make_coordinate_guess
+    coords_before_guess = @computer.board.cells.keys
+    coords_after_guess = @computer.available_cells
+    guess = @computer.guess
+    assert coords_before_guess.include?(guess)
+    refute coords_after_guess.include?(guess)
+  end
+
+  def test_computer_can_recieve_shot
+    @computer.recieve_shot("A1")
+    assert @computer.board.cells["A1"].fired_upon?
+    assert_equal "M", @computer.board.cells["A1"].render
+    @computer.board.place(@computer.ships[0], ["C2", "C3"])
+    @computer.recieve_shot("C3")
+    assert_equal "H", @computer.board.cells["C3"].render
   end
 end
