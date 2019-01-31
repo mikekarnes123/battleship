@@ -24,9 +24,10 @@ class ShipTest < Minitest::Test
   def test_that_hit_will_change_status_of_sunk
     refute @cruiser.sunk?
     @cruiser.hit
+    assert_equal 2, @cruiser.health
     @cruiser.hit
+    assert_equal 1, @cruiser.health
     @cruiser.hit
     assert @cruiser.sunk?
   end
-
 end
