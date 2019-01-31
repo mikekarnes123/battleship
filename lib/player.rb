@@ -15,7 +15,6 @@ class Player
   def get_coordinates
     @ships.each { |ship|
       place_ship(ship)
-      binding.pry
       render_board("Player", @board.render(true))
     }
   end
@@ -26,9 +25,7 @@ class Player
     if !valid_coordinates.all?
       error_message(2)
       place_ship(ship)
-    end
-    valid_placement = @board.valid_placement?(ship, coordinates)
-    if !valid_placement
+    elsif !@board.valid_placement?(ship, coordinates)
       error_message(3) 
       place_ship(ship)
     else
