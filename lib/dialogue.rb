@@ -16,12 +16,16 @@ module Dialogue
   end
 
   def place_ship_message ship
+    next_coordinates = ship.length - 1
     puts "Place #{ship.name} (#{ship.length}cells)"
     coordinates = []
-    ship.length.times do |x|
-      puts "{x} coordinate?"
+    puts "First Coordinate?"
+    first_coord = gets.chomp
+    coordinates << first_coord.capitalize
+    next_coordinates.times do |x|
+      puts "Next Coord?"
       coordinate_response = gets.chomp
-      coordinates << coordinate_response
+      coordinates << coordinate_response.capitalize
     end
     coordinates
   end

@@ -27,13 +27,7 @@ class Game
     place_ship_stage
   end
   
-  def place_ship_stage
-    cruiser = Ship.new("Cruiser", 2)
-    submarine = Ship.new("Submarine", 3)
-    [cruiser, submarine].map {|ship|
-      player_coordinates = place_ship_message(ship)
-      @player.place_ship( player_coordinates)
-    }
-    
+  def place_ship_stage 
+    @player.get_coordinates
   end
 end
