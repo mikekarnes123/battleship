@@ -31,9 +31,14 @@ class Game
     @player.get_coordinates
     @computer.place_ships
     render_board("Computer", @computer.board.render)
+    fire_missiles_stage
   end
 
   def fire_missiles_stage
-    
+    coordinate = fire_missles_message
+    @computer.fired_on(coordinate)
+    @player.fired_on(@computer.random_shot)
+    render_board("Player", @player.board.render(true))
+    render_board("Computer", @computer.board.render)
   end
 end

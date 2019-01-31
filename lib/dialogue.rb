@@ -35,6 +35,11 @@ module Dialogue
     puts board
   end
 
+  def fire_missles_message
+    puts "Enter A Coordinate for your shot"
+    gets.chomp.capitalize
+  end
+
   def error_message code
     case code 
     when 2

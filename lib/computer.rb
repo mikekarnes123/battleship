@@ -25,4 +25,12 @@ class Computer
     valid_placement ? @board.place(ship, @ships_coordinates[ship.name]) : 
     (@ships_coordinates[ship.name] = []; generate_random_coordinates(ship))
   end
+
+  def fired_on(coordinate)
+    @board.cells[coordinate].fire_upon
+  end
+
+  def random_shot 
+    (@board.cells.keys - @board.occupied_cells).sample
+  end
 end
