@@ -1,7 +1,7 @@
 require_relative 'cell'
-
+require 'pry'
 class Board
-  attr_reader :cells
+  attr_reader :cells, :occupied_cells
   
   def initialize
     @cells = ("A".."D").inject({}) {|cell_hash, letter|
