@@ -27,7 +27,7 @@ class Cell
     if !fired_upon?
       boolean && @ship ? "S" : "." 
     else
-      !@ship ? 'M' : @ship.health == 0 ? 'X' : "H"
+      !@ship ? 'M' : @ship.health.zero? ? 'X' : "H"
     end
   end
 end

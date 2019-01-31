@@ -30,7 +30,20 @@ module Dialogue
     coordinates
   end
 
+  def render_board user, board
+    puts "#{"=" * 5}#{user}#{"=" * 5}"
+    puts board
+  end
+
   def error_message code
+    case code 
+    when 2
+      puts "#{"-" * 10}Invalid Coordinates!!!#{"-" * 10}"
+      puts "#{"-" * 40}"
+    when 3
+      puts "#{"-" * 10}Invalid Placement!!!#{"-" * 10}"
+      puts "#{"-" * 40}"
+    end
   end
 
 
