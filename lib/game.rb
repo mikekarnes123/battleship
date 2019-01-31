@@ -29,5 +29,11 @@ class Game
   
   def place_ship_stage 
     @player.get_coordinates
+    @computer.place_ships
+    render_board("Computer", @computer.board.render)
+  end
+
+  def fire_missiles_stage
+    
   end
 end
