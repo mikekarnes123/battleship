@@ -1,7 +1,6 @@
 require_relative 'board'
 require 'pry'
 class Computer
-
   attr_reader :board,
               :available_cells,
               :ships
@@ -36,16 +35,8 @@ class Computer
 
   def recieve_shot(player_guess)
     @board.cells[player_guess].fire_upon
-    case @board.cells[player_guess].render
-    when "M"
-      puts "You Missed A Shot On #{player_guess}!"
-      puts "\n"
-    when "H"
-      puts "You Landed A Hit On #{player_guess}!"
-      puts "\n"
-    else
-      puts "You Sunk The Computer's #{@board.cells[player_guess].ship.name}"
-      puts "\n"
-    end
+    cell_render = @board.cells[player_guess].render
+    ship_name = @board.cells[player_guess].ship.name if cell_render == "X"
+    ["You", cell_render, ship_name, player_guess]
   end
 end
