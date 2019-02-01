@@ -23,12 +23,14 @@ class Board
     overlapped = coordinates.any? {|coordinate| @occupied_cells.include?(coordinate)}
     return !overlapped if overlapped
     valid_columns = valid_rows.transpose
-    [valid_rows, valid_columns].reduce(false) { |boolean, valids_array|
+    [valid_rows, valid_columns].reduce(false) do |boolean, valids_array|
       target_valid = valids_array.find { |valid_array| valid_array.include?(coordinates.first) }
       indices = coordinates.map { |coordinate| target_valid.index(coordinate) }
+      break if !indices.all? {|index| index.class == Integer}  
+      indices.sort_by! {|num| num}
       boolean = indices.each_cons(2).all? { |a, b| b == a + 1 }
       return boolean if boolean
-    }
+    end
   end
 
   def valid_rows
