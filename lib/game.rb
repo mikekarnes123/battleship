@@ -3,11 +3,8 @@ require_relative 'player'
 require_relative 'computer'
 require_relative 'ship'
 
-
-
 class Game
   include Dialogue
-
   attr_accessor :ready, :player, :computer
 
   def intialize
@@ -30,32 +27,28 @@ class Game
   def place_ship_stage
     @player.initialize_ship_placement
     @computer.initialize_ship_placement
-    puts "\n"
-    puts "\n"
-    
-    render_board("Computer", @computer.board.render)
     ready_message
     fire_missiles_stage
   end
 
   def fire_missiles_stage
-
-    @computer.recieve_shot(@player.guess)
-    @player.recieve_shot(@computer.guess)
+    computer_info = @computer.recieve_shot(@player.guess)
+    player_info = @player.recieve_shot(@computer.guess)
     render_board("Player", @player.board.render(true))
-    puts "\n"
-    puts "\n"
+    shot_response_feedback *player_info
     render_board("Computer", @computer.board.render)
+    shot_response_feedback *computer_info
     end_game?
   end
 
   def end_game?
-    if @player.ships.all? {|ship| ship.health == 0}
-      puts "The Computer Has Won :("
-    elsif @computer.ships.all? {|ship| ship.health == 0}
-      puts "You Win!!! :)"
+    computer_win = @player.ships.all? {|ship| ship.health == 0}
+    player_win = @computer.ships.all? {|ship| ship.health == 0}
+    if computer_win || player_win
+      end_game_message player_win, computer_win
+      @ready = false
     else
-      fire_missiles_stage
+      fire_missiles_stage 
     end
   end
 end

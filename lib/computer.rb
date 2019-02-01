@@ -1,7 +1,6 @@
 require_relative 'board'
 require 'pry'
 class Computer
-
   attr_reader :board,
               :available_cells,
               :ships
@@ -18,15 +17,26 @@ class Computer
   end
 
   def generate_random_coordinates ship
-    row_or_column = [@board.valid_rows, @board.valid_rows.transpose][rand(0..1)][rand(0..3)]
+    valid_board = [@board.valid_rows, @board.valid_columns]
+    row_or_column = valid_board[rand(0..1)][rand(0..3)]
     first_coordinate = row_or_column[rand(0..3)]
     first_index = row_or_column.index(first_coordinate)
     @ships_coordinates[ship.name] << first_coordinate
     remaining_cells = ship.length - 1
-    remaining_cells.times {|_| @ships_coordinates[ship.name] << row_or_column[first_index += 1] }
-    valid_placement = @board.valid_placement?(ship, @ships_coordinates[ship.name])
-    valid_placement ? @board.place(ship, @ships_coordinates[ship.name]) :
-    (@ships_coordinates[ship.name] = []; generate_random_coordinates(ship))
+    remaining_cells.times do 
+      @ships_coordinates[ship.name] << row_or_column[first_index += 1]
+    end
+    validate_random_coordinates ship, ship.name
+  end
+
+  def validate_random_coordinates ship, ship_name
+    valid_placement = @board.valid_placement?(ship, @ships_coordinates[ship_name])
+    if valid_placement 
+      @board.place(ship, @ships_coordinates[ship_name]) 
+    else
+      @ships_coordinates[ship_name] = []
+      generate_random_coordinates(ship)
+    end
   end
 
   def guess
@@ -36,16 +46,8 @@ class Computer
 
   def recieve_shot(player_guess)
     @board.cells[player_guess].fire_upon
-    case @board.cells[player_guess].render
-    when "M"
-      puts "You Missed A Shot On #{player_guess}!"
-      puts "\n"
-    when "H"
-      puts "You Landed A Hit On #{player_guess}!"
-      puts "\n"
-    else
-      puts "You Sunk The Computer's #{@board.cells[player_guess].ship.name}"
-      puts "\n"
-    end
+    cell_render = @board.cells[player_guess].render
+    ship_name = @board.cells[player_guess].ship.name if cell_render == "X"
+    ["You", cell_render, ship_name, player_guess]
   end
 end
