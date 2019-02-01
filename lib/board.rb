@@ -1,5 +1,5 @@
 require_relative 'cell'
-require 'pry'
+
 class Board
   attr_reader :cells, :occupied_cells
   

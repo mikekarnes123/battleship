@@ -24,16 +24,16 @@ class ComputerTest < MiniTest::Test
     coords_before_guess = @computer.board.cells.keys
     coords_after_guess = @computer.available_cells
     guess = @computer.guess
-    assert coords_before_guess.include?(guess)
-    refute coords_after_guess.include?(guess)
+    assert coords_before_guess.include?guess
+    refute coords_after_guess.include?guess
   end
 
   def test_computer_can_recieve_shot
-    @computer.recieve_shot("A1")
+    @computer.recieve_shot"A1"
     assert @computer.board.cells["A1"].fired_upon?
     assert_equal "M", @computer.board.cells["A1"].render
-    @computer.board.place(@computer.ships[0], ["C2", "C3"])
-    @computer.recieve_shot("C3")
+    @computer.board.place@computer.ships[0], ["C2", "C3"]
+    @computer.recieve_shot"C3"
     assert_equal "H", @computer.board.cells["C3"].render
   end
 end

@@ -16,32 +16,32 @@ class BoardTest < Minitest::Test
 
   def test_it_has_cells_hash_4_by_4
     cell_keys = @board.cells.keys
-    cell_keys.each {|key|
+    cell_keys.each do |key|
       assert_instance_of Cell, @board.cells[key]
-    }
+    end
     assert_equal cell_keys ,@board.cells.keys
   end
 
   def test_it_can_tell_a_valid_coordinate
-    assert @board.valid_coordinate?("A1")
-    refute @board.valid_coordinate?("R1")
+    assert @board.valid_coordinate? "A1" 
+    refute @board.valid_coordinate? "R1"
   end
 
   def test_if_valid_ship_placement
-    submarine = Ship.new("Submarine", 3)
-    cruiser = Ship.new("Cruiser", 2)
-    refute @board.valid_placement?(submarine, ["A1", "A2", "A4"])
-    refute @board.valid_placement?(cruiser, ["A1", "A2", "A3"])
-    assert @board.valid_placement?(cruiser, ["D1", "D2"])
-    assert @board.valid_placement?(submarine, ["A2", "B2", "C2"])
-    assert @board.valid_placement?(submarine, ["B3", "B1", "B2"])
-    assert @board.valid_placement?(submarine, ["B3", "A3", "C3"])
+    submarine = Ship.new "Submarine", 3
+    cruiser = Ship.new "Cruiser", 2
+    refute @board.valid_placement? submarine, ["A1", "A2", "A4"]
+    refute @board.valid_placement? cruiser, ["A1", "A2", "A3"]
+    assert @board.valid_placement? cruiser, ["D1", "D2"]
+    assert @board.valid_placement? submarine, ["A2", "B2", "C2"]
+    assert @board.valid_placement? submarine, ["B3", "B1", "B2"]
+    assert @board.valid_placement? submarine, ["B3", "A3", "C3"]
   end
 
   def test_it_can_place_ship_with_coords
-    submarine = Ship.new("Submarine", 3)
+    submarine = Ship.new "Submarine", 3
     coordinates = ["A1", "A2", "A3"]
-    @board.place(submarine, coordinates)
+    @board.place submarine, coordinates
     coordinates.each do |coordinate|
       assert_equal submarine, @board.cells[coordinate].ship
     end
@@ -68,14 +68,14 @@ class BoardTest < Minitest::Test
   end
 
   def test_ships_cannot_overlap
-    submarine = Ship.new("Submarine", 3)
-    cruiser = Ship.new("Cruiser", 2)
-    @board.place(submarine, ["A1", "A2", "A3"])
-    refute @board.valid_placement?(cruiser, ["A1", "B1"])
+    submarine = Ship.new "Submarine", 3
+    cruiser = Ship.new "Cruiser", 2
+    @board.place submarine, ["A1", "A2", "A3"]
+    refute @board.valid_placement? cruiser, ["A1", "B1"]
   end
 
   def test_it_can_render_board
-    submarine = Ship.new("Submarine", 3)
+    submarine = Ship.new "Submarine", 3
     expected = "   1 2 3 4 \n A . . . . "+
                           "\n B . . . . "+
                           "\n C . . . . "+
@@ -84,14 +84,14 @@ class BoardTest < Minitest::Test
   end
 
   def test_renders_ships
-    submarine = Ship.new("Submarine", 3)
+    submarine = Ship.new "Submarine", 3
     @board.place submarine, ["A1", "A2", "A3"]
     expected = "   1 2 3 4 \n A S S S . "+
                           "\n B . . . . "+
                           "\n C . . . . "+
                           "\n D . . . . \n"
     assert_equal expected, @board.render(true)
-    cruiser = Ship.new("Cruiser", 2)
+    cruiser = Ship.new "Cruiser", 2
     @board.place submarine, ["B2", "C2"]
     expected = "   1 2 3 4 \n A S S S . "+
                           "\n B . S . . "+

@@ -18,9 +18,9 @@ class PlayerTest < MiniTest::Test
   end
 
   def test_it_initially_has_ships_board
-    @player.ships.each { |ship|
+    @player.ships.each do |ship|
       assert_instance_of Ship, ship
-    }
+    end
     assert_instance_of Board, @player.board
   end
 
@@ -28,7 +28,7 @@ class PlayerTest < MiniTest::Test
     with_stdin do |player|
       player.puts "A1"
       player.puts "A2"
-      @player.place_player_ship(@player.ships[0])
+      @player.place_player_ship @player.ships[0]
       assert_equal ["A1", "A2"], @player.board.occupied_cells
     end
   end
@@ -68,7 +68,7 @@ class PlayerTest < MiniTest::Test
   end
 
   def test_can_be_shot_at
-    @player.recieve_shot("A1")
+    @player.recieve_shot "A1"
     assert @player.board.cells["A1"].fired_upon?
   end
 end
