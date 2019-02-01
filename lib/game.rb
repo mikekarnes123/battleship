@@ -34,13 +34,9 @@ class Game
   def fire_missiles_stage
     computer_info = @computer.recieve_shot(@player.guess)
     player_info = @player.recieve_shot(@computer.guess)
-    puts "\n"
     render_board("Player", @player.board.render(true))
-    puts "\n"
     shot_response_feedback *player_info
-    puts "\n"
     render_board("Computer", @computer.board.render)
-    puts "\n"
     shot_response_feedback *computer_info
     end_game?
   end
@@ -50,6 +46,7 @@ class Game
     player_win = @computer.ships.all? {|ship| ship.health == 0}
     if computer_win || player_win
       end_game_message player_win, computer_win
+      @ready = false
     else
       fire_missiles_stage 
     end

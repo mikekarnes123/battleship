@@ -14,15 +14,17 @@ class Player
   end
 
   def initialize_ship_placement
-    @ships.each { |ship|
+    @ships.each do |ship|
       place_player_ship(ship)
       render_board("Player", @board.render(true))
-    }
+    end
   end
 
   def place_player_ship ship
     coordinates = place_ship_message(ship)
-    valid_coordinates = coordinates.map { |coordinate| @board.valid_coordinate?(coordinate) }
+    valid_coordinates = coordinates.map do |coordinate| 
+      @board.valid_coordinate?(coordinate)
+    end
     case
     when !valid_coordinates.all?
       error_message(2); place_player_ship(ship)

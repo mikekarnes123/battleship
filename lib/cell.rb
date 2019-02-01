@@ -22,12 +22,14 @@ class Cell
   def fire_upon
     @ship.hit if @ship; @fired_upon = true
   end
-#refactor 
+
   def render boolean = false
     if !fired_upon?
       boolean && @ship ? "S" : "."
+    elsif @ship  
+      @ship.health.zero? ? 'X' : "H"
     else
-      !@ship ? 'M' : @ship.health.zero? ? 'X' : "H"
+      'M'
     end
   end
 end

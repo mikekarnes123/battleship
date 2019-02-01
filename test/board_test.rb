@@ -15,7 +15,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_has_cells_hash_4_by_4
-    cell_keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
+    cell_keys = @board.cells.keys
     cell_keys.each {|key|
       assert_instance_of Cell, @board.cells[key]
     }
@@ -32,8 +32,10 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 2)
     refute @board.valid_placement?(submarine, ["A1", "A2", "A4"])
     refute @board.valid_placement?(cruiser, ["A1", "A2", "A3"])
-    assert @board.valid_placement?(submarine, ["A2", "B2", "C2"])
     assert @board.valid_placement?(cruiser, ["D1", "D2"])
+    assert @board.valid_placement?(submarine, ["A2", "B2", "C2"])
+    assert @board.valid_placement?(submarine, ["B3", "B1", "B2"])
+    assert @board.valid_placement?(submarine, ["B3", "A3", "C3"])
   end
 
   def test_it_can_place_ship_with_coords
@@ -46,8 +48,23 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_create_valid_rows
-    expected = [["A1", "A2", "A3", "A4"], ["B1", "B2", "B3", "B4"], ["C1", "C2", "C3", "C4"], ["D1", "D2", "D3", "D4"]]
+    expected = [
+                 ["A1", "A2", "A3", "A4"], 
+                 ["B1", "B2", "B3", "B4"], 
+                 ["C1", "C2", "C3", "C4"], 
+                 ["D1", "D2", "D3", "D4"]
+               ]
     assert_equal expected, @board.valid_rows
+  end
+
+  def test_it_can_create_valid_columns
+    expected = [
+                 ["A1", "B1", "C1", "D1"], 
+                 ["A2", "B2", "C2", "D2"], 
+                 ["A3", "B3", "C3", "D3"], 
+                 ["A4", "B4", "C4", "D4"]
+               ]
+    assert_equal expected, @board.valid_columns
   end
 
   def test_ships_cannot_overlap
@@ -59,16 +76,28 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_board
     submarine = Ship.new("Submarine", 3)
-    assert_equal "   1 2 3 4 \n A . . . . \n B . . . . \n C . . . . \n D . . . . \n", @board.render
+    expected = "   1 2 3 4 \n A . . . . "+
+                          "\n B . . . . "+
+                          "\n C . . . . "+
+                          "\n D . . . . \n"
+    assert_equal expected, @board.render
   end
 
   def test_renders_ships
     submarine = Ship.new("Submarine", 3)
     @board.place submarine, ["A1", "A2", "A3"]
-    assert_equal "   1 2 3 4 \n A S S S . \n B . . . . \n C . . . . \n D . . . . \n", @board.render(true)
+    expected = "   1 2 3 4 \n A S S S . "+
+                          "\n B . . . . "+
+                          "\n C . . . . "+
+                          "\n D . . . . \n"
+    assert_equal expected, @board.render(true)
     cruiser = Ship.new("Cruiser", 2)
     @board.place submarine, ["B2", "C2"]
-    assert_equal "   1 2 3 4 \n A S S S . \n B . S . . \n C . S . . \n D . . . . \n", @board.render(true)
+    expected = "   1 2 3 4 \n A S S S . "+
+                          "\n B . S . . "+
+                          "\n C . S . . "+
+                          "\n D . . . . \n"
+    assert_equal expected, @board.render(true)
   end
 
 end
