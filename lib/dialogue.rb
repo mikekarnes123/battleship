@@ -1,11 +1,16 @@
 module Dialogue
-  def initial_greeting boolean = false
+  def initial_greeting(boolean = false)
     puts "Welcome to BATTLESHIP"
     puts "\n"
     puts "[p] to play. [q] to quit."
     puts "\n"
     player_response =  gets.chomp
     boolean = true if player_response == "p"
+  end
+
+  def request_size_message
+    puts "Enter size for Board"
+    gets.chomp.to_i
   end
 
   def end_game_message
@@ -20,7 +25,7 @@ module Dialogue
     puts "\n"
   end
 
-  def place_ship_message ship
+  def place_ship_message(ship)
     next_coordinates = ship.length - 1
     puts "Place #{ship.name} (#{ship.length}cells)"
     puts "\n"
@@ -37,7 +42,7 @@ module Dialogue
     coordinates
   end
 
-  def render_board user, board
+  def render_board(user, board)
     puts "\n"
     puts "#{"=" * 5} #{user} Board #{"=" * 5}"
     puts "\n"
@@ -51,7 +56,7 @@ module Dialogue
     puts "\n"
   end
 
-  def error_message code
+  def error_message(code)
     case code
     when 2
       puts "#{"*" * 10}Invalid Coordinates!!!#{"*" * 10}"
@@ -70,7 +75,7 @@ module Dialogue
     gets.chomp.capitalize
   end
 
-  def shot_response_feedback user, cell_render, ship_name, coordinate
+  def shot_response_feedback(user, cell_render, ship_name, coordinate)
     case cell_render
     when "M"
       puts "#{user} Missed A Shot On #{coordinate}!"
@@ -84,7 +89,7 @@ module Dialogue
     end
   end
 
-  def end_game_message player_win, computer_win
+  def end_game_message(player_win, computer_win)
     puts player_win ? "You Win!!! :)" : "The Computer Has Won :("
   end
 end

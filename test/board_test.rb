@@ -7,19 +7,20 @@ require 'pry'
 
 class BoardTest < Minitest::Test
   def setup
-    @board = Board.new
+    @board = Board.new(4)
   end
 
   def test_it_exists
     assert_instance_of Board, @board
   end
 
-  def test_it_has_cells_hash_4_by_4
+  def test_it_has_a_board_size_and_cells_according_to_size
     cell_keys = @board.cells.keys
     cell_keys.each do |key|
       assert_instance_of Cell, @board.cells[key]
     end
     assert_equal cell_keys ,@board.cells.keys
+    assert_equal 4, @board.size
   end
 
   def test_it_can_tell_a_valid_coordinate
