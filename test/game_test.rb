@@ -32,4 +32,15 @@ class GameTest < MiniTest::Test
     assert_instance_of Computer, @game.computer
     assert_instance_of Player, @game.player
   end
+
+  def test_fire_missiles_stage
+    with_stdin do |player|
+      player.puts "A1"
+      @game.start_game
+      player.puts "p"
+      assert @game.ready
+
+    end
+    binding.pry
+  end
 end

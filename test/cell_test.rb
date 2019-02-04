@@ -6,9 +6,9 @@ require 'pry'
 
 class CellTest < Minitest::Test
   def setup
-    @cruiser = Ship.new("Cruiser", 3)
-    @cell = Cell.new("B4")
-    @cell_two = Cell.new("C2")
+    @cruiser = Ship.new "Cruiser", 3
+    @cell = Cell.new "B4"
+    @cell_two = Cell.new "C2"
   end
 
   def test_it_exists
@@ -23,10 +23,10 @@ class CellTest < Minitest::Test
   def test_it_reports_if_the_cell_is_empty
     assert @cell.empty?
   end
-#rename test
+
   def test_it_reports_cell_has_a_ship_and_is_no_longer_empty
     assert @cell.empty?
-    @cell.place_ship(@cruiser)
+    @cell.place_ship @cruiser
     assert_equal @cruiser, @cell.ship
     refute @cell.empty?
   end
@@ -41,7 +41,7 @@ class CellTest < Minitest::Test
   end
 
   def test_that_the_ship_on_the_cell_takes_damage
-    @cell.place_ship(@cruiser)
+    @cell.place_ship @cruiser
     @cell.fire_upon
     assert_equal 2, @cell.ship.health
   end
@@ -50,7 +50,7 @@ class CellTest < Minitest::Test
     assert_equal ".", @cell.render
     @cell.fire_upon
     assert_equal "M", @cell.render
-    @cell_two.place_ship(@cruiser)
+    @cell_two.place_ship @cruiser
     assert_equal "S", @cell_two.render(true)
     @cell_two.fire_upon
     assert_equal "H", @cell_two.render

@@ -1,14 +1,13 @@
 require_relative 'ship'
 require_relative 'board'
 require_relative 'dialogue'
-require "pry"
 
 class Player
   include Dialogue
   attr_reader :ships, :board, :player_guesses
 
-  def initialize
-    @board = Board.new
+  def initialize(size)
+    @board = Board.new size
     @ships = [Ship.new("Cruiser", 2), Ship.new("Submarine", 3)]
     @player_guesses = []
   end
@@ -20,16 +19,16 @@ class Player
     end
   end
 
-  def place_player_ship ship
+  def place_player_ship(ship)
     coordinates = place_ship_message(ship)
     valid_coordinates = coordinates.map do |coordinate| 
       @board.valid_coordinate?(coordinate)
     end
     case
     when !valid_coordinates.all?
-      error_message(2); place_player_ship(ship)
+      error_message 2; place_player_ship(ship)
     when !@board.valid_placement?(ship, coordinates)
-      error_message(3); place_player_ship(ship)
+      error_message 3; place_player_ship(ship)
     else
       @board.place(ship, coordinates)
     end
@@ -38,7 +37,7 @@ class Player
   def guess
     guess_coord = player_guess_input
     valid_coordinate = @board.valid_coordinate?(guess_coord)
-    if @player_guesses.include? guess_coord
+    if @player_guesses.include?(guess_coord)
       error_message 4
       guess
     elsif !valid_coordinate

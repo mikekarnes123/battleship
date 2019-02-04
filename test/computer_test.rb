@@ -6,8 +6,9 @@ require './lib/board'
 
 class ComputerTest < MiniTest::Test
   def setup
-    @computer = Computer.new
+    @computer = Computer.new(10)
   end
+
   def test_it_exists
     assert_instance_of Computer, @computer
   end
@@ -32,7 +33,7 @@ class ComputerTest < MiniTest::Test
     @computer.recieve_shot("A1")
     assert @computer.board.cells["A1"].fired_upon?
     assert_equal "M", @computer.board.cells["A1"].render
-    @computer.board.place(@computer.ships[0], ["C2", "C3"])
+    @computer.board.place@computer.ships[0], ["C2", "C3"]
     @computer.recieve_shot("C3")
     assert_equal "H", @computer.board.cells["C3"].render
   end

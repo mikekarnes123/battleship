@@ -1,12 +1,14 @@
 require_relative 'cell'
-require 'pry'
+
 class Board
-  attr_reader :cells, :occupied_cells
+  attr_reader :cells, :occupied_cells, :size
   
-  def initialize
-    @cells = ("A".."D").inject({}) do |cell_hash, letter|
-      (1..4).each do |num|
-       coordinate = "#{letter}#{num}"
+  def initialize(size)
+    letters = (1..size).map {|num| (num + 64).chr}
+    @size = size
+    @cells = letters.inject({}) do |cell_hash, letter|
+      (1..size).each do |num|
+        coordinate = "#{letter}#{num}"
         cell_hash[coordinate] = Cell.new(coordinate)
       end
       cell_hash
@@ -14,11 +16,11 @@ class Board
     @occupied_cells = []
   end
 
-  def valid_coordinate? coordinate
+  def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
   end
 
-  def valid_placement? ship, coordinates
+  def valid_placement?(ship, coordinates)
     return false if ship.length != coordinates.length
     overlapping = coordinates.any? { |coordinate| @occupied_cells.include?(coordinate) }
     return false if overlapping
@@ -32,7 +34,8 @@ class Board
   end
 
   def valid_rows
-    letters, numbers = ("A".."D").to_a, Array.new(4, (1..4).to_a)
+    numbers = Array.new(@size, (1..@size).to_a)
+    letters = (1..@size).map {|num| (num + 64).chr}
     numbers.map.with_index do |numbers_a, index|
       numbers_a.map do |number|
         "#{letters[index]}#{number}"
@@ -52,6 +55,7 @@ class Board
   end
 
   def render boolean = false
+
     rendered_board = valid_rows.map.with_index do |row_array, index|
       rendered_rows = row_array.map do |coordinate|
         if @occupied_cells.include?(coordinate) && boolean 
@@ -60,9 +64,10 @@ class Board
           @cells[coordinate].render
         end
       end
-      respective_letter = ("A".."D").to_a[index]
+      letters = (1..@size).map {|num| (num + 64).chr}
+      respective_letter = letters[index]
       rendered_rows.unshift(respective_letter) << "\n"
     end.join(" ")
-    "   1 2 3 4 \n #{rendered_board}"
+    "   #{(1..@size).to_a.join(" ")} \n #{rendered_board}"
   end
 end

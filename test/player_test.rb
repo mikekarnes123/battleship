@@ -10,7 +10,7 @@ require 'pry'
 class PlayerTest < MiniTest::Test
   include GetsChomp
   def setup
-    @player = Player.new
+    @player = Player.new(10)
   end
 
   def test_it_exists
@@ -18,9 +18,9 @@ class PlayerTest < MiniTest::Test
   end
 
   def test_it_initially_has_ships_board
-    @player.ships.each { |ship|
+    @player.ships.each do |ship|
       assert_instance_of Ship, ship
-    }
+    end
     assert_instance_of Board, @player.board
   end
 
@@ -51,7 +51,7 @@ class PlayerTest < MiniTest::Test
     with_stdin do |player|
       player.puts "A1"
       assert_equal "A1", @player.guess
-      assert @player.player_guesses.include? "A1"
+      assert @player.player_guesses.include?("A1")
       end
   end
 
@@ -61,7 +61,7 @@ class PlayerTest < MiniTest::Test
       player.puts "A1"
       player.puts "A2"
       @player.guess
-      assert @player.player_guesses.include? "A1"
+      assert @player.player_guesses.include?("A1")
       @player.guess
       assert_equal ["A1", "A2"], @player.player_guesses
       end
