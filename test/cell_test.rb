@@ -22,12 +22,7 @@ class CellTest < Minitest::Test
 
   def test_it_reports_if_the_cell_is_empty
     assert @cell.empty?
-  end
-
-  def test_it_reports_cell_has_a_ship_and_is_no_longer_empty
-    assert @cell.empty?
-    @cell.place_ship @cruiser
-    assert_equal @cruiser, @cell.ship
+    @cell.place_ship(@cruiser)
     refute @cell.empty?
   end
 
@@ -35,7 +30,7 @@ class CellTest < Minitest::Test
     refute @cell.fired_upon?
   end
 
-  def test_it_can_fire_upon
+  def test_it_can_fired_upon
     @cell.fire_upon
     assert @cell.fired_upon?
   end

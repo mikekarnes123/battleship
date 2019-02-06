@@ -28,17 +28,6 @@ class BoardTest < Minitest::Test
     refute @board.valid_coordinate? "R1"
   end
 
-  def test_if_valid_ship_placement
-    submarine = Ship.new "Submarine", 3
-    cruiser = Ship.new "Cruiser", 2
-    refute @board.valid_placement? submarine, ["A1", "A2", "A4"]
-    refute @board.valid_placement? cruiser, ["A1", "A2", "A3"]
-    assert @board.valid_placement? cruiser, ["D1", "D2"]
-    assert @board.valid_placement? submarine, ["A2", "B2", "C2"]
-    assert @board.valid_placement? submarine, ["B3", "B1", "B2"]
-    assert @board.valid_placement? submarine, ["B3", "A3", "C3"]
-  end
-
   def test_it_can_place_ship_with_coords
     submarine = Ship.new "Submarine", 3
     coordinates = ["A1", "A2", "A3"]
@@ -68,15 +57,30 @@ class BoardTest < Minitest::Test
     assert_equal expected, @board.valid_columns
   end
 
-  def test_ships_cannot_overlap
+  def test_if_valid_ship_placement
     submarine = Ship.new "Submarine", 3
     cruiser = Ship.new "Cruiser", 2
+    refute @board.valid_placement? submarine, ["A1", "A2", "A4"]
+    refute @board.valid_placement? cruiser, ["A1", "A2", "A3"]
+    assert @board.valid_placement? cruiser, ["D1", "D2"]
+    assert @board.valid_placement? submarine, ["A2", "B2", "C2"]
+    assert @board.valid_placement? submarine, ["B3", "B1", "B2"]
+    assert @board.valid_placement? submarine, ["B3", "A3", "C3"]
+  end
+
+  def test_ships_cannot_overlap
+    submarine = Ship.new "Submarine", 3
     @board.place submarine, ["A1", "A2", "A3"]
-    refute @board.valid_placement? cruiser, ["A1", "B1"]
+    assert @board.overlapping?(["A1", "B1"])
+    refute @board.overlapping?(["B2", "B3"])
+  end
+
+  def test_it_can_check_consecutive
+    assert_equal true, @board.consecutive?(["A1", "A2", "A3"])
+    assert_equal false, @board.consecutive?(["A1", "A3", "A4"])
   end
 
   def test_it_can_render_board
-    submarine = Ship.new "Submarine", 3
     expected = "   1 2 3 4 \n A . . . . "+
                           "\n B . . . . "+
                           "\n C . . . . "+
@@ -93,18 +97,11 @@ class BoardTest < Minitest::Test
                           "\n D . . . . \n"
     assert_equal expected, @board.render(true)
     cruiser = Ship.new "Cruiser", 2
-    @board.place submarine, ["B2", "C2"]
+    @board.place cruiser, ["B2", "C2"]
     expected = "   1 2 3 4 \n A S S S . "+
                           "\n B . S . . "+
                           "\n C . S . . "+
                           "\n D . . . . \n"
     assert_equal expected, @board.render(true)
   end
-
-  def test_it_can_check_consecutive
-    assert_equal true, @board.consecutive?(["A1", "A2", "A3"])
-    assert_equal false, @board.consecutive?(["A1", "A3", "A4"])
-
-  end
-
 end
