@@ -24,7 +24,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_can_tell_a_valid_coordinate
-    assert @board.valid_coordinate? "A1" 
+    assert @board.valid_coordinate? "A1"
     refute @board.valid_coordinate? "R1"
   end
 
@@ -50,9 +50,9 @@ class BoardTest < Minitest::Test
 
   def test_it_can_create_valid_rows
     expected = [
-                 ["A1", "A2", "A3", "A4"], 
-                 ["B1", "B2", "B3", "B4"], 
-                 ["C1", "C2", "C3", "C4"], 
+                 ["A1", "A2", "A3", "A4"],
+                 ["B1", "B2", "B3", "B4"],
+                 ["C1", "C2", "C3", "C4"],
                  ["D1", "D2", "D3", "D4"]
                ]
     assert_equal expected, @board.valid_rows
@@ -60,9 +60,9 @@ class BoardTest < Minitest::Test
 
   def test_it_can_create_valid_columns
     expected = [
-                 ["A1", "B1", "C1", "D1"], 
-                 ["A2", "B2", "C2", "D2"], 
-                 ["A3", "B3", "C3", "D3"], 
+                 ["A1", "B1", "C1", "D1"],
+                 ["A2", "B2", "C2", "D2"],
+                 ["A3", "B3", "C3", "D3"],
                  ["A4", "B4", "C4", "D4"]
                ]
     assert_equal expected, @board.valid_columns
@@ -99,6 +99,12 @@ class BoardTest < Minitest::Test
                           "\n C . S . . "+
                           "\n D . . . . \n"
     assert_equal expected, @board.render(true)
+  end
+
+  def test_it_can_check_consecutive
+    assert_equal true, @board.consecutive?(["A1", "A2", "A3"])
+    assert_equal false, @board.consecutive?(["A1", "A3", "A4"])
+
   end
 
 end

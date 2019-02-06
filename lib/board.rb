@@ -2,7 +2,7 @@ require_relative 'cell'
 
 class Board
   attr_reader :cells, :occupied_cells, :size
-  
+
   def initialize(size)
     letters = (1..size).map {|num| (num + 64).chr}
     @size = size
@@ -24,12 +24,17 @@ class Board
     return false if ship.length != coordinates.length
     overlapping = coordinates.any? { |coordinate| @occupied_cells.include?(coordinate) }
     return false if overlapping
+    consecutive?(coordinates)
+  end
+
+  def consecutive?(coordinates)
     [valid_rows, valid_columns].reduce(false) do |consecutive, valids_array|
       target_valid = valids_array.find { |array| array.include?(coordinates.first) }
       indices = coordinates.map { |coordinate| target_valid.index(coordinate) }
       indices.sort_by! {|num| num} if indices.all?
       consecutive = indices.each_cons(2).all? { |a, b| b == a + 1 }
-      return consecutive if consecutive
+      return true if consecutive
+      consecutive
     end
   end
 
@@ -55,12 +60,11 @@ class Board
   end
 
   def render boolean = false
-
     rendered_board = valid_rows.map.with_index do |row_array, index|
       rendered_rows = row_array.map do |coordinate|
-        if @occupied_cells.include?(coordinate) && boolean 
+        if @occupied_cells.include?(coordinate) && boolean
           @cells[coordinate].render(true)
-        else 
+        else
           @cells[coordinate].render
         end
       end
