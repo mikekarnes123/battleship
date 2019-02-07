@@ -22,19 +22,22 @@ class Board
 
   def valid_placement?(ship, coordinates)
     return false if ship.length != coordinates.length
-    overlapping = coordinates.any? { |coordinate| @occupied_cells.include?(coordinate) }
-    return false if overlapping
+    return false if overlapping?(coordinates)
     consecutive?(coordinates)
+  end
+
+  def overlapping?(coordinates)
+    coordinates.any? { |coordinate| @occupied_cells.include?(coordinate) }
   end
 
   def consecutive?(coordinates)
     [valid_rows, valid_columns].reduce(false) do |consecutive, valids_array|
       target_valid = valids_array.find { |array| array.include?(coordinates.first) }
       indices = coordinates.map { |coordinate| target_valid.index(coordinate) }
-      indices.sort_by! {|num| num} if indices.all?
+      indices.all? ? indices.sort! : next
       consecutive = indices.each_cons(2).all? { |a, b| b == a + 1 }
       return true if consecutive
-      consecutive
+      return consecutive
     end
   end
 

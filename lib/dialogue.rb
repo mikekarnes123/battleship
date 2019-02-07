@@ -92,4 +92,10 @@ module Dialogue
   def end_game_message(player_win, computer_win)
     puts player_win ? "You Win!!! :)" : "The Computer Has Won :("
   end
+
+  def cancel_game_message
+    puts "\n"
+    puts "#{"*" * 10} Goodbye #{"*" * 10}"
+    puts "\n"
+  end
 end

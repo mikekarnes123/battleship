@@ -39,8 +39,6 @@ class GameTest < MiniTest::Test
       @game.start_game
       player.puts "p"
       assert @game.ready
-
     end
-    binding.pry
   end
 end

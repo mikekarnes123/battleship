@@ -14,8 +14,12 @@ class Game
   end
 
   def menu
-    initial_greeting ? @ready = true : end_game_message
-    start_game(request_size_message)
+    if initial_greeting 
+      @ready = true  
+      start_game(request_size_message)
+    else
+      cancel_game_message
+    end
   end
 
   def start_game size

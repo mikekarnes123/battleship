@@ -26,9 +26,11 @@ class Player
     end
     case
     when !valid_coordinates.all?
-      error_message 2; place_player_ship(ship)
+      error_message 2
+      place_player_ship(ship)
     when !@board.valid_placement?(ship, coordinates)
-      error_message 3; place_player_ship(ship)
+      error_message 3
+      place_player_ship(ship)
     else
       @board.place(ship, coordinates)
     end

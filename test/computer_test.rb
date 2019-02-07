@@ -17,10 +17,6 @@ class ComputerTest < MiniTest::Test
     assert_instance_of Board, @computer.board
   end
 
-  def test_it_chooses_random_coordinates
-    @computer.initialize_ship_placement
-  end
-
   def test_computer_can_make_coordinate_guess
     coords_before_guess = @computer.board.cells.keys
     coords_after_guess = @computer.available_cells
